@@ -18,6 +18,10 @@ public class ContaDao {
 		this.manager.persist(conta);
 	}
 
+	public void altera(Conta conta) {
+		this.manager.merge(conta);
+	}
+
 	public Conta busca(Integer id) {
 		return this.manager.find(Conta.class, id);
 	}
