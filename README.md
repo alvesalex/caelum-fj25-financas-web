@@ -1,2 +1,2 @@
-# caelum_hibernate_jpa_web
+# caelum-fj25-financas-web
 Curso de Hibernate, JPA e EJB Lite - Projeto Web
