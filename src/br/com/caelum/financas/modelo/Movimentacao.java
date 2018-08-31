@@ -2,6 +2,7 @@ package br.com.caelum.financas.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -26,6 +28,9 @@ public class Movimentacao {
 
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
+	
+	@ManyToMany
+	private List<Categoria> categorias;
 
 	public TipoMovimentacao getTipoMovimentacao() {
 		return tipoMovimentacao;
@@ -75,4 +80,11 @@ public class Movimentacao {
 		this.conta = conta;
 	}
 
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
 }
