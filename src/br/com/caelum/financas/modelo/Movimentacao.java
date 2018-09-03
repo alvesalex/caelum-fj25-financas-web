@@ -2,6 +2,7 @@ package br.com.caelum.financas.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import javax.persistence.ManyToOne;
 public class Movimentacao {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
 	private LocalDateTime data;
@@ -28,9 +29,9 @@ public class Movimentacao {
 
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
-	
+
 	@ManyToMany
-	private List<Categoria> categorias;
+	private List<Categoria> categorias = new ArrayList<Categoria>();
 
 	public TipoMovimentacao getTipoMovimentacao() {
 		return tipoMovimentacao;
