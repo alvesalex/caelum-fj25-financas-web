@@ -77,10 +77,13 @@ public class MovimentacaoDao {
 			TipoMovimentacao tipoMovimentacao) {
 		TypedQuery<Movimentacao> query = this.manager
 				.createQuery(
-						"select m from Movimentacao m where m.valor = :valor and m.tipoMovimentacao = :tipoMovimentacao",
+						"select m from Movimentacao m where m.valor <= :valor and m.tipoMovimentacao = :tipoMovimentacao",
 						Movimentacao.class);
 		query.setParameter("valor", valor);
 		query.setParameter("tipoMovimentacao", tipoMovimentacao);
+		
+		query.setHint("org.hibernate.cacheable", "true");
+		
 		return query.getResultList();
 	}
 
