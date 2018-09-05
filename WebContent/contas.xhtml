@@ -12,7 +12,8 @@
 
    		<ui:define name="corpo">
 	        <h:form>
-	        	<f:validateBean disabled="true">
+	        	<h:messages />
+	        	<f:validateBean>
 			        <h:panelGrid columns="3">
 			        	<h:outputText value="Id" rendered="#{contasBean.conta.id!=null}" />
 			        	<h:inputText id="id" value="#{contasBean.conta.id}" rendered="#{contasBean.conta.id!=null}" readonly="true"/>
@@ -31,17 +32,17 @@
 						<h:message for="agencia" />
 
 			        	<h:outputText value="Número"/>
-			        	<h:inputText id="numero" value="#{contasBean.conta.numero}"/>
+			        	<h:inputText id="numero" value="#{contasBean.conta.numero}" />
 			        	<h:message for="numero" />
 
-			        	<h:outputText value="Gerente" rendered="false"/>
-								<h:selectOneMenu id="gerente" value="#{not empty contasBean.conta.gerente.id ? contasBean.conta.gerente.id : contasBean.gerenteId}" rendered="false">
+			        	<h:outputText value="Gerente" rendered="true"/>
+								<h:selectOneMenu id="gerente" value="#{not empty contasBean.conta.gerente.id ? contasBean.conta.gerente.id : contasBean.gerenteId}" rendered="true">
 			        		<f:selectItem itemLabel="Escolha o gerente da conta" itemValue="" noSelectionOption="true"/>
 			        		<f:selectItems value="#{gerentesBean.gerentes}" var="gerente" itemLabel="#{gerente.nome}" itemValue="#{gerente.id}" />
 			        	</h:selectOneMenu>
 			        	<h:message for="gerente"/>
 
-			        	<h:commandButton value="Gravar" action="#{contasBean.grava}"/>
+			        	<h:commandButton value="Gravar" action="#{contasBean.grava}" update="@form"/>
 			        </h:panelGrid>
 			    </f:validateBean>
 	        </h:form>
@@ -70,7 +71,7 @@
 	        		<f:facet name="header"><h:outputText value="Núm. Conta"/></f:facet>
 	        		#{conta.numero}
 	        	</h:column>
-			<h:column rendered="false">
+			<h:column rendered="true">
 	        		<f:facet name="header"><h:outputText value="Gerente"/></f:facet>
 	        		#{conta.gerente.nome}
 	        	</h:column>

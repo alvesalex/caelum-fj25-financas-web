@@ -35,6 +35,7 @@ public class ContaDao {
 	}
 
 	public void remove(Conta conta) {
+		manager.joinTransaction();
 		Conta contaParaRemover = this.manager.find(Conta.class, conta.getId());
 		this.manager.remove(contaParaRemover);
 	}
