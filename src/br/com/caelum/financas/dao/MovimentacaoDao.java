@@ -1,12 +1,18 @@
 package br.com.caelum.financas.dao;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -157,5 +163,45 @@ public class MovimentacaoDao {
 
 			throw new IllegalArgumentException(e);
 		}
+	}
+
+	public List<Movimentacao> listaTodosComCriteria() {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Movimentacao> criteria = builder
+				.createQuery(Movimentacao.class);
+		criteria.from(Movimentacao.class);
+		return manager.createQuery(criteria).getResultList();
+	}
+
+	public List<Movimentacao> pesquisa(Conta conta,
+			TipoMovimentacao tipoMovimentacao, Integer mes) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Movimentacao> criteria = builder
+				.createQuery(Movimentacao.class);
+
+		Root<Movimentacao> root = criteria.from(Movimentacao.class);
+		Predicate conjunction = builder.conjunction();
+
+		if (conta != null && conta.getId() != null) {
+			conjunction = builder.and(conjunction,
+					builder.equal(root.<Conta> get("conta"), conta));
+		}
+
+		if (tipoMovimentacao != null) {
+			conjunction = builder.and(conjunction, builder.equal(
+					root.<TipoMovimentacao> get("tipoMovimentacao"),
+					tipoMovimentacao));
+		}
+
+		if (mes != null) {
+			Expression<Integer> expression = builder.function("month",
+					Integer.class, root.<Calendar> get("data"));
+			conjunction = builder.and(conjunction,
+					builder.equal(expression, mes));
+		}
+
+		criteria.where(conjunction);
+
+		return manager.createQuery(criteria).getResultList();
 	}
 }
