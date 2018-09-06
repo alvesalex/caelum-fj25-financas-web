@@ -25,6 +25,10 @@
 			<property name="hibernate.cache.use_second_level_cache" value="true"/>
 			<property name="hibernate.cache.use_query_cache" value="true"/>
 			<property name="hibernate.generate_statistics" value="true"/>
+			
+			<property name="hibernate.search.default.directory_provider" value="filesystem"/>
+			<property name="hibernate.search.default.indexBase" value="/home/jpa7777/lucene/indexes"/>
+			<property name="hibernate.search.analyzer" value="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
 		</properties>
 	</persistence-unit>
 

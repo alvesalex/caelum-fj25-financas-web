@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import br.com.caelum.financas.dao.GerenteDao;
 import br.com.caelum.financas.modelo.Gerente;
+import br.com.caelum.financas.modelo.GerenteConta;
 
 @Named
 @ViewScoped
@@ -16,7 +17,7 @@ public class GerentesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Gerente gerente = new Gerente();
+	private Gerente gerente = new GerenteConta();
 
 	@Inject
 	private GerenteDao gerenteDao;
@@ -26,7 +27,7 @@ public class GerentesBean implements Serializable {
 	private Integer gerenteId;
 
 	private void limpaFormularioDoJSF() {
-		this.gerente = new Gerente();
+		this.gerente = new GerenteConta();
 		gerenteId = null;
 	}
 

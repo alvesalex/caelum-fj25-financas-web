@@ -8,6 +8,14 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.Search;
+
 import br.com.caelum.financas.exception.ValorInvalidoException;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
@@ -81,9 +89,9 @@ public class MovimentacaoDao {
 						Movimentacao.class);
 		query.setParameter("valor", valor);
 		query.setParameter("tipoMovimentacao", tipoMovimentacao);
-		
+
 		query.setHint("org.hibernate.cacheable", "true");
-		
+
 		return query.getResultList();
 	}
 
@@ -128,4 +136,26 @@ public class MovimentacaoDao {
 		this.manager.remove(movimentacaoParaRemover);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Movimentacao> buscaPorDescricao(String descricao) {
+		FullTextEntityManager fullTextEntityManager = Search
+				.getFullTextEntityManager(manager);
+
+		Analyzer analyzer = fullTextEntityManager.getSearchFactory()
+				.getAnalyzer(Movimentacao.class);
+
+		QueryParser parser = new QueryParser("descricao", analyzer);
+
+		try {
+			Query query = parser.parse(descricao);
+			FullTextQuery textQuery = fullTextEntityManager
+					.createFullTextQuery(query, Movimentacao.class);
+
+			return textQuery.getResultList();
+		} catch (ParseException e) {
+			e.printStackTrace();
+
+			throw new IllegalArgumentException(e);
+		}
+	}
 }

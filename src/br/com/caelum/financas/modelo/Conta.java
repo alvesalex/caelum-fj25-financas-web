@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.envers.Audited;
 
 import br.com.caelum.financas.validator.NumeroEAgencia;
 
@@ -28,6 +29,7 @@ import br.com.caelum.financas.validator.NumeroEAgencia;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "agencia",
 		"numero" }) })
 @NumeroEAgencia
+@Audited
 public class Conta {
 
 	@Id
